@@ -1,2 +1,2 @@
 <img src="/0_cse340_web_backend1/phpmotors/images/site/logo.png" alt="PHP Motors logo" id="logoImg">
-<a id="accountLink" href="/0_cse340_web_backend1/phpmotors/accounts/index.php?action=login">My Account</a>
+<a id="accountLink" href="/0_cse340_web_backend1/phpmotors/accounts/accounts.php?action=login">My Account</a>

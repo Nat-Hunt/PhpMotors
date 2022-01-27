@@ -18,7 +18,7 @@
                     <?php echo $navList;?>
                 </nav>
                 <h1>Login</h1>
-                <form action="../accounts/index.php?action=registerNewUser" id="registrationForm">
+                <form action="../accounts/accounts.php?action=registerNewUser" id="registrationForm">
                     <label for="clientFirstname">*First Name: </label>
                     <input type="text" name="clientFirstname" id="clientFirstname" required><br>
                     <label for="clientLastname">*Last Name: </label>

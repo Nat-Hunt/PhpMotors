@@ -14,7 +14,7 @@
             
             <main>
                 <nav>
-                    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?>
+                    <!-- <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?> -->
                     <?php echo $navList;?>
                 </nav>
                 <h1>Content Title Here</h1>
