@@ -1,5 +1,5 @@
 <ul id="navul">
-    <li><a href="">Home</a></li>
+    <li><a href="/0_cse340_web_backend1/phpmotors/index.php">Home</a></li>
     <li><a href="">Classic</a></li>
     <li><a href="">Sports</a></li>
     <li><a href="">SUV</a></li>

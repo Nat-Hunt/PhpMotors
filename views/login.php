@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Template | PHP Motors</title>
+        <title>Login | PHP Motors</title>
         <link href="/0_cse340_web_backend1/phpmotors/css/style.css" type="text/css" rel="stylesheet" media="screen">
     </head>
     <body>
@@ -14,11 +14,19 @@
             
             <main>
                 <nav>
-                    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?>
+                    <!-- <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?> -->
                     <?php echo $navList;?>
                 </nav>
-                <h1>Content Title Here</h1>
-            
+                <h1>Login</h1>
+                <form action="../accounts/index.php?action=verifyLoginInfo" id="loginForm">
+                    <label for="clientEmail">Email Address: </label>
+                    <input type="text" name="clientEmail" id="clientEmail"><br>
+                    <label for="clientPassword">Password: </label>
+                    <input type="password" name="clientPassword" id="clientPassword"><br>
+                    <input type="submit" value="Login">
+                    <p id="registerNewUser">No account? <a href='../accounts/index.php?action=register'>Register Here</a></p>
+                </form>
+
             </main>
             
             <footer>
