@@ -18,16 +18,23 @@
                     <?php echo $navList;?>
                 </nav>
                 <h1>Login</h1>
-                <form action="../accounts/accounts.php?action=registerNewUser" id="registrationForm">
+
+                <?php 
+                    if (isset($message)) {
+                        echo $message;
+                    }
+                ?>
+                <form action="../accounts/accounts.php" method="post" id="registrationForm">
                     <label for="clientFirstname">*First Name: </label>
-                    <input type="text" name="clientFirstname" id="clientFirstname" required><br>
+                    <input type="text" name="clientFirstname" id="clientFirstname"><br>
                     <label for="clientLastname">*Last Name: </label>
-                    <input type="text" name="clientLastname" id="clientLastname" required><br>
+                    <input type="text" name="clientLastname" id="clientLastname"><br>
                     <label for="clientEmail">*Email Address: </label>
-                    <input type="text" name="clientEmail" id="clientEmail" required><br>
+                    <input type="text" name="clientEmail" id="clientEmail"><br>
                     <label for="clientPassword">*Password: </label>
-                    <input type="password" name="clientPassword" id="clientPassword" required><br>
-                    <input type="submit" value="Register">
+                    <input type="password" name="clientPassword" id="clientPassword"><br>
+                    <input type="submit" name="submit" id="regbtn" value="Register">
+                    <input type="hidden" name="action" value="register">
                     <p>Areas marked with * indicate required fields.</p>
                 </form>
             

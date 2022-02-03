@@ -18,13 +18,18 @@
                     <?php echo $navList;?>
                 </nav>
                 <h1>Login</h1>
+                <?php 
+                    if (isset($message)) {
+                        echo $message;
+                    }
+                ?>
                 <form action="../accounts/accounts.php?action=verifyLoginInfo" id="loginForm">
                     <label for="clientEmail">Email Address: </label>
                     <input type="text" name="clientEmail" id="clientEmail"><br>
                     <label for="clientPassword">Password: </label>
                     <input type="password" name="clientPassword" id="clientPassword"><br>
                     <input type="submit" value="Login">
-                    <p id="registerNewUser">No account? <a href='../accounts/accounts.php?action=register'>Register Here</a></p>
+                    <p id="registerNewUser">No account? <a href='../accounts/accounts.php?action=registerNewUser'>Register Here</a></p>
                 </form>
 
             </main>
