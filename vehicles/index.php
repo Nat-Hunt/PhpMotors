@@ -63,14 +63,8 @@
             $invColor = filter_input(INPUT_POST, 'invColor');
             $classificationId = filter_input(INPUT_POST, 'classificationId');
             // Check for missing data
-            if(empty($invMake) || empty($invModel) || empty($invDescription) || empty($invPrice) || empty($invStock) || empty($invColor)) {
+            if(empty($invMake) || empty($invModel) || empty($invDescription) || empty($invPrice) || empty($invStock) || empty($invColor) || empty($classificationId)) {
                 $message = '<p>Please provide information for all empty form fields.</p>';
-                include '../views/add-vehicle.php';
-                exit;
-            }
-            if(empty($classificationId)) {
-                $message = '<p>Please provide information for all empty form fields.';
-                $message .= ' You forgot the Classification</p>';
                 include '../views/add-vehicle.php';
                 exit;
             }
