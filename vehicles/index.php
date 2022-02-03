@@ -44,7 +44,7 @@
             // Send the data to the model
             $regOutcome = newClass($classificationName);
             if($regOutcome === 1){
-                header("Location: ../vehicles/vehicles.php");
+                header("Location: ../vehicles/");
                 exit;
             } else {
                 $message = "<p>Sorry, but the Submission failed. Please try again.</p>";

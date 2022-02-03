@@ -18,8 +18,8 @@
                     <?php echo $navList;?>
                 </nav>
                 <h1>Vehicle Management</h1>
-                <a href="../vehicles/vehicles.php?action=addClass">Add a new car classification</a>
-                <a href="../vehicles/vehicles.php?action=addVehicle">Add a vehicle to inventory</a>
+                <a href="../vehicles/?action=addClass">Add a new car classification</a>
+                <a href="../vehicles/?action=addVehicle">Add a vehicle to inventory</a>
             
             </main>
             

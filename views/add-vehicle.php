@@ -24,7 +24,7 @@
                         echo $message;
                     }
                 ?>
-                <form action="../vehicles/vehicles.php" method="post" id="newVehicleForm">
+                <form action="../vehicles/" method="post" id="newVehicleForm">
                     <label for="invMake">*Make: </label>
                     <input type="text" name="invMake" id="invMake" required><br>
 

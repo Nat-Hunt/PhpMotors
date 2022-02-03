@@ -24,7 +24,7 @@
                         echo $message;
                     }
                 ?>
-                <form action="../vehicles/vehicles.php" method="post" id="classificationForm">
+                <form action="../vehicles/" method="post" id="classificationForm">
                     <label for="classificationName">*Classification Name: </label>
                     <input type="text" name="classificationName" id="classificationName"><br>
                     <input type="submit" name="submit" id="regbtn" value="Submit">

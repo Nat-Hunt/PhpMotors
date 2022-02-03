@@ -24,7 +24,7 @@
                         echo $message;
                     }
                 ?>
-                <form action="../accounts/accounts.php" method="post" id="registrationForm">
+                <form action="../accounts/" method="post" id="registrationForm">
                     <label for="clientFirstname">*First Name: </label>
                     <input type="text" name="clientFirstname" id="clientFirstname"><br>
                     <label for="clientLastname">*Last Name: </label>
