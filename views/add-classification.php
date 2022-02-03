@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registration | PHP Motors</title>
+        <title>Add New Classification | PHP Motors</title>
         <link href="/0_cse340_web_backend1/phpmotors/css/style.css" type="text/css" rel="stylesheet" media="screen">
     </head>
     <body>
@@ -17,24 +17,18 @@
                     <!-- <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?> -->
                     <?php echo $navList;?>
                 </nav>
-                <h1>Register</h1>
+                <h1>Add New Classification</h1>
 
                 <?php 
                     if (isset($message)) {
                         echo $message;
                     }
                 ?>
-                <form action="../accounts/accounts.php" method="post" id="registrationForm">
-                    <label for="clientFirstname">*First Name: </label>
-                    <input type="text" name="clientFirstname" id="clientFirstname"><br>
-                    <label for="clientLastname">*Last Name: </label>
-                    <input type="text" name="clientLastname" id="clientLastname"><br>
-                    <label for="clientEmail">*Email Address: </label>
-                    <input type="text" name="clientEmail" id="clientEmail"><br>
-                    <label for="clientPassword">*Password: </label>
-                    <input type="password" name="clientPassword" id="clientPassword"><br>
-                    <input type="submit" name="submit" id="regbtn" value="Register">
-                    <input type="hidden" name="action" value="register">
+                <form action="../vehicles/vehicles.php" method="post" id="classificationForm">
+                    <label for="classificationName">*Classification Name: </label>
+                    <input type="text" name="classificationName" id="classificationName"><br>
+                    <input type="submit" name="submit" id="regbtn" value="Submit">
+                    <input type="hidden" name="action" value="newClass">
                     <p>Areas marked with * indicate required fields.</p>
                 </form>
             
