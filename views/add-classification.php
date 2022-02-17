@@ -26,7 +26,7 @@
                 ?>
                 <form action="../vehicles/" method="post" id="classificationForm">
                     <label for="classificationName">*Classification Name: </label>
-                    <input type="text" name="classificationName" id="classificationName"><br>
+                    <input type="text" name="classificationName" id="classificationName" required><br>
                     <input type="submit" name="submit" id="regbtn" value="Submit">
                     <input type="hidden" name="action" value="newClass">
                     <p>Areas marked with * indicate required fields.</p>

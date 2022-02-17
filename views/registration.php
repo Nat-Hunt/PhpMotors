@@ -26,13 +26,13 @@
                 ?>
                 <form action="../accounts/" method="post" id="registrationForm">
                     <label for="clientFirstname">*First Name: </label>
-                    <input type="text" name="clientFirstname" id="clientFirstname"><br>
+                    <input type="text" name="clientFirstname" id="clientFirstname" required><br>
                     <label for="clientLastname">*Last Name: </label>
-                    <input type="text" name="clientLastname" id="clientLastname"><br>
+                    <input type="text" name="clientLastname" id="clientLastname" required><br>
                     <label for="clientEmail">*Email Address: </label>
-                    <input type="text" name="clientEmail" id="clientEmail"><br>
+                    <input type="text" name="clientEmail" id="clientEmail" required><br>
                     <label for="clientPassword">*Password: </label>
-                    <input type="password" name="clientPassword" id="clientPassword"><br>
+                    <input type="password" name="clientPassword" id="clientPassword" required><br>
                     <input type="submit" name="submit" id="regbtn" value="Register">
                     <input type="hidden" name="action" value="register">
                     <p>Areas marked with * indicate required fields.</p>
