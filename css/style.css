@@ -22,6 +22,10 @@ a {
 img {
     max-width: 100%;
 }
+span {
+    font-family: monospace;
+    color: var(--accent2);
+}
 
 html {
     background-image: url("../images/site/checkerboard.jpg");
@@ -33,6 +37,7 @@ html {
     overflow: hidden;
     max-width: 1750px;
     margin: 0 auto;
+    padding: 5px;
 }
 
 

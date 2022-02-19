@@ -26,7 +26,8 @@
                 ?>
                 <form action="../vehicles/" method="post" id="classificationForm">
                     <label for="classificationName">*Classification Name: </label>
-                    <input type="text" name="classificationName" id="classificationName" required><br>
+                    <span>Classification Name can be no more than 30 characters</span>
+                    <input type="text" name="classificationName" id="classificationName" required pattern="[A-Za-z0-9]{1,30}"><br>
                     <input type="submit" name="submit" id="regbtn" value="Submit">
                     <input type="hidden" name="action" value="newClass">
                     <p>Areas marked with * indicate required fields.</p>

@@ -26,28 +26,34 @@
                 ?>
                 <form action="../vehicles/" method="post" id="newVehicleForm">
                     <label for="invMake">*Make: </label>
-                    <input type="text" name="invMake" id="invMake" required><br>
+                    <span>Make can be no more than 30 characters</span>
+                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";}  ?>><br>
 
                     <label for="invModel">*Model: </label>
-                    <input type="text" name="invModel" id="invModel" required><br>
+                    <span>Model can be no more than 30 characters</span>
+                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";}  ?>><br>
 
                     <label for="invDescription">*Description: </label>
-                    <input type="text" name="invDescription" id="invDescription" required><br>
+                    <input type="text" name="invDescription" id="invDescription" required <?php if(isset($invDescription)){echo "value='$invDescription'";}  ?>><br>
 
                     <label for="invImage">Image: </label>
-                    <input type="text" name="invImage" id="invImage" value="../images/no-image.png" required><br>
+                    <span>Image URL can be no more than 50 characters</span>
+                    <input type="text" name="invImage" id="invImage" value="../images/no-image.png" required <?php if(isset($invImage)){echo "value='$invImage'";}  ?>><br>
 
                     <label for="invThumbnail">Image Thumbnail: </label>
-                    <input type="text" name="invThumbnail" id="invThumbnail" value="../images/no-image.png" required><br>
+                    <span>Thumbnail URL can be no more than 50 characters</span>
+                    <input type="text" name="invThumbnail" id="invThumbnail" value="../images/no-image.png" required <?php if(isset($invThumbnail)){echo "value='$invThumbnail'";}  ?>><br>
 
                     <label for="invPrice">*Price: </label>
-                    <input type="text" name="invPrice" id="invPrice" required><br>
+                    <input type="number" name="invPrice" id="invPrice" required <?php if(isset($invPrice)){echo "value='$invPrice'";}  ?>><br>
 
                     <label for="invStock">*Total in Stock: </label>
-                    <input type="text" name="invStock" id="invStock" required><br>
+                    <span>Stock can be no more than 6 digits</span>
+                    <input type="number" name="invStock" id="invStock" required pattern="[0-9]{1,6}" <?php if(isset($invStock)){echo "value='$invStock'";}  ?>><br>
 
                     <label for="invColor">*Color: </label>
-                    <input type="text" name="invColor" id="invColor" required><br>
+                    <span>Color can be no more than 20 characters</span>
+                    <input type="text" name="invColor" id="invColor" required pattern="[A-Za-z0-9]{1,20}" <?php if(isset($invColor)){echo "value='$invColor'";}  ?>><br>
 
                     <label for="carClassification">*Vehicle Classification: </label>
                     <?php echo $classificationList;?>

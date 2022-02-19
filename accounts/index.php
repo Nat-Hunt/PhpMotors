@@ -8,19 +8,8 @@
     require_once '../model/accounts-model.php';
 
     $classifications = getClassifications();
-    // var_dump($classifications);
-    // exit;
-
     // Build a navigation bar using the $classifications array
-    $navList = "<ul id='navul'>";
-    $navList .= "<li><a href='/0_cse340_web_backend1/phpmotors/index.php' title='View the PHP Motors home page'>Home</a></li>";
-    foreach ($classifications as $classification) {
-        $navList .="<li><a href='/phpmotors/index.php?action=".urlencode($classification['classificationName'])."' title='View our $classification[classificationName] product line'>$classification[classificationName]</a></li>";
-    }
-    $navList .='</ul>';
-
-    // echo $navList;
-    // exit;
+    $navList = buildNavList($classifications);
 
     $action = filter_input(INPUT_POST, 'action');
     if ($action == NULL) {

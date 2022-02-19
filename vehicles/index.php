@@ -3,6 +3,7 @@
     // This is the Accounts Controller
 
     require_once '../library/connections.php';
+    require_once '../library/functions.php';
     require_once '../model/main-model.php';
     require_once '../model/vehicles-model.php';
 
@@ -11,21 +12,8 @@
     // exit;
 
     // Build a navigation bar using the $classifications array
-    $navList = "<ul id='navul'>";
-    $navList .= "<li><a href='/0_cse340_web_backend1/phpmotors/index.php' title='View the PHP Motors home page'>Home</a></li>";
-    $classificationList = "<select name='classificationId' id='carClassification'>";
-    foreach ($classifications as $classification) {
-        $name = $classification['classificationName'];
-        $id = $classification['classificationId'];
-        $navList .="<li><a href='/phpmotors/index.php?action=".urlencode($name)."' title='View our $name product line'>$name</a></li>";
-        $classificationList .= "<option value='$id'>$name</option>";
-    }
-    $navList .='</ul>';
-    $classificationList .="</select><br>";
-
-    // echo $navList;
-    // echo $classificationList;
-    // exit;
+    $navList = buildNavList($classifications);
+    $classificationList = buildClassificationList($classifications);
 
     $action = filter_input(INPUT_POST, 'action');
     if ($action == NULL) {
@@ -35,8 +23,10 @@
     switch ($action) {
         case 'newClass':
             $classificationName = filter_input(INPUT_POST, 'classificationName');
+            // Verify input
+            $checkName = checkName($classificationName);
             // Check for missing data
-            if(empty($classificationName)) {
+            if(empty($checkName)) {
                 $message = '<p>Please provide information for all empty form fields.</p>';
                 include '../views/add-classification.php';
                 exit;
@@ -53,18 +43,43 @@
             }
             break;
         case 'newVehicle':
-            $invMake = filter_input(INPUT_POST, 'invMake');
-            $invModel = filter_input(INPUT_POST, 'invModel');
-            $invDescription = filter_input(INPUT_POST, 'invDescription');
-            $invImage = filter_input(INPUT_POST, 'invImage');
-            $invThumbnail = filter_input(INPUT_POST, 'invThumbnail');
-            $invPrice = filter_input(INPUT_POST, 'invPrice');
-            $invStock = filter_input(INPUT_POST, 'invStock');
-            $invColor = filter_input(INPUT_POST, 'invColor');
-            $classificationId = filter_input(INPUT_POST, 'classificationId');
+            $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_STRING));
+            $invModel = trim(filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_STRING));
+            $invDescription = trim(filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_STRING));
+            $invImage = trim(filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_URL));
+            $invThumbnail = trim(filter_input(INPUT_POST, 'invThumbnail', FILTER_SANITIZE_URL));
+            $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
+            $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_SANITIZE_NUMBER_INT));
+            $invColor = trim(filter_input(INPUT_POST, 'invColor', FILTER_SANITIZE_STRING));
+            $classificationId = trim(filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_NUMBER_INT));
+            // Verify inputs
+            $checkMake = checkMake($invMake);
+            if ($checkMake == 0) {
+                $invMake = NULL;
+            }
+            $checkModel = checkModel($invModel);
+            if ($checkModel == 0) {
+                $invModel = NULL;
+            }
+            $checkImage = checkImage($invImage);
+            if ($checkImage == 0) {
+                $invImage = NULL;
+            }
+            $checkThumbnail = checkThumbnail($invThumbnail);
+            if ($checkThumbnail == 0) {
+                $invThumbnail = NULL;
+            }
+            $checkStock = checkStock($invStock);
+            if ($checkStock == 0) {
+                $invStock = NULL;
+            }
+            $checkColor = checkColor($invColor);
+            if ($checkColor == 0) {
+                $invColor = NULL;
+            }
             // Check for missing data
-            if(empty($invMake) || empty($invModel) || empty($invDescription) || empty($invPrice) || empty($invStock) || empty($invColor) || empty($classificationId)) {
-                $message = '<p>Please provide information for all empty form fields.</p>';
+            if(empty($checkMake) || empty($checkModel) || empty($invDescription) || empty($checkPrice) || empty($checkStock) || empty($checkColor) || empty($classificationId)) {
+                $message = '<p>Please verify information for form fields.</p>';
                 include '../views/add-vehicle.php';
                 exit;
             }
