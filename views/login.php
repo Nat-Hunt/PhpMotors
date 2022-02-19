@@ -23,12 +23,14 @@
                         echo $message;
                     }
                 ?>
-                <form action="../accounts/?action=verifyLoginInfo" id="loginForm">
+                <form action="../accounts/" method="post" id="loginForm">
                     <label for="clientEmail">Email Address: </label>
-                    <input type="text" name="clientEmail" id="clientEmail" required><br>
+                    <input type="email" name="clientEmail" id="clientEmail" required <?php if(isset($clientEmail)){echo "value='$clientEmail'";}  ?>><br>
                     <label for="clientPassword">Password: </label>
-                    <input type="password" name="clientPassword" id="clientPassword" required><br>
-                    <input type="submit" value="Login">
+                    <span>Passwords must be at least 8 characters and contain at least 1 number, 1 capital letter and 1 special character</span>
+                    <input type="password" name="clientPassword" id="clientPassword" required pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"><br>
+                    <input type="submit" name="submit" id="logbtn" value="Login">
+                    <input type="hidden" name="action" value="verifyLoginInfo">
                     <p id="registerNewUser">No account? <a href='../accounts/?action=registerNewUser'>Register Here</a></p>
                 </form>
 
