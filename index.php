@@ -2,6 +2,9 @@
 
     // This is the Root Controller
 
+    // Create or access a Session
+    session_start();
+
     require_once 'library/connections.php';
     require_once 'library/functions.php';
     require_once 'model/main-model.php';
@@ -20,7 +23,7 @@
     if ($action == NULL) {
         $action = filter_input(INPUT_GET, 'action');
     }
-    
+
     switch ($action) {
         case 'template':
             include 'views/template.php';
