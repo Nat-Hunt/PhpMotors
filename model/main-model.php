@@ -1,9 +1,9 @@
 <?php
 // this is the Main PHP Motors Model
 
-if(isset($_COOKIE['firstname'])){
-    $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-   }
+// if(isset($_SESSION['clientData']['clientFirstname'])){
+//     $cookieFirstname = $_SESSION['clientData']['clientFirstname'];
+//    }
 
 function getClassifications() {
     // Create a connection object from the phpomotors connection function

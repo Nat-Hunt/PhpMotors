@@ -20,8 +20,8 @@
                 <h1>Add New Vehicle</h1>
 
                 <?php 
-                    if (isset($message)) {
-                        echo $message;
+                    if (isset($_SESSION['message'])) {
+                        echo $_SESSION['message'];
                     }
                 ?>
                 <form action="../vehicles/" method="post" id="newVehicleForm">

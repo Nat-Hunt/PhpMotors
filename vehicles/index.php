@@ -30,7 +30,7 @@
             $checkName = checkName($classificationName);
             // Check for missing data
             if(empty($checkName)) {
-                $message = '<p>Please provide information for all empty form fields.</p>';
+                $_SESSION['message'] = '<p>Please provide information for all empty form fields.</p>';
                 include '../views/add-classification.php';
                 exit;
             }
@@ -40,7 +40,7 @@
                 header("Location: ../vehicles/");
                 exit;
             } else {
-                $message = "<p>Sorry, but the Submission failed. Please try again.</p>";
+                $_SESSION['message'] = "<p>Sorry, but the Submission failed. Please try again.</p>";
                 include '../views/add-classification.php';
                 exit;
             }
@@ -82,18 +82,18 @@
             }
             // Check for missing data
             if(empty($checkMake) || empty($checkModel) || empty($invDescription) || empty($checkPrice) || empty($checkStock) || empty($checkColor) || empty($classificationId)) {
-                $message = '<p>Please verify information for form fields.</p>';
+                $_SESSION['message'] = '<p>Please verify information for form fields.</p>';
                 include '../views/add-vehicle.php';
                 exit;
             }
             // Send the data to the model
             $regOutcome = newVehicle($invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor, $classificationId);
             if($regOutcome === 1){
-                $message = "<p>Inventory update of $invMake $invModel successful. Current stock: $invStock Current price: $invPrice</p>";
+                $_SESSION['message'] = "<p>Inventory update of $invMake $invModel successful. Current stock: $invStock Current price: $invPrice</p>";
                 include '../views/add-vehicle.php';
                 exit;
             } else {
-                $message = "<p>Sorry, but the inventory update failed. Please try again.</p>";
+                $_SESSION['message'] = "<p>Sorry, but the inventory update failed. Please try again.</p>";
                 include '../views/add-vehicle.php';
                 exit;
             }
