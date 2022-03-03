@@ -10,10 +10,10 @@
     --border-curve: 10px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, th {
     font-family: 'Courier New', Courier, monospace;
 }
-p, a, li, b, label, input, button {
+p, a, li, b, label, input, button, td {
     font-family: monospace;
 }
 a {

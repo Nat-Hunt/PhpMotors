@@ -1,3 +1,9 @@
+<?php
+if ($_SESSION['clientData']['clientLevel'] < 2) {
+    header('location: ..');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -56,7 +62,7 @@
                     <input type="text" name="invColor" id="invColor" required pattern="[A-Za-z0-9]{1,20}" <?php if(isset($invColor)){echo "value='$invColor'";}  ?>><br>
 
                     <label for="carClassification">*Vehicle Classification: </label>
-                    <?php echo $classificationList;?>
+                    <?php echo $classificationList;?><br>
 
                     <input type="submit" name="submit" id="regbtn" value="Submit">
                     <input type="hidden" name="action" value="newVehicle">

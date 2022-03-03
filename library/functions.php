@@ -61,12 +61,14 @@ function buildNavList($classifications){
 }
 
 function buildClassificationList($classifications){
-    $classificationList = "<select name='classificationId' id='carClassification'>";
+    $classificationList = "<select name='classificationId' id='classificationList'>";
+    $classificationList .= "<option value='none'>Choose a classification</option>";
     foreach ($classifications as $classification) {
         $name = $classification['classificationName'];
-        $id = $classification['classificationId'];$classificationList .= "<option value='$id'>$name</option>";
+        $id = $classification['classificationId'];
+        $classificationList .= "<option value='$id'>$name</option>";
     }
-    $classificationList .="</select><br>";
+    $classificationList .="</select>";
     return $classificationList;
 }
 ?>

@@ -1,3 +1,9 @@
+<?php
+if ($_SESSION['clientData']['clientLevel'] < 2) {
+    header('location: ..');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
