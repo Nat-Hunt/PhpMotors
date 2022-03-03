@@ -13,6 +13,10 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
             if($classification['classificationId'] === $classificationId){
                 $classifList .= ' selected ';
             }
+        } elseif(isset($invInfo['classificationId'])){
+            if($classification['classificationId'] === $invInfo['classificationId']){
+                $classifList .= ' selected ';
+            }
         }
         $classifList .= ">$classification[classificationName]</option>";
     }
@@ -23,7 +27,12 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Add New Vehicle | PHP Motors</title>
+        <title><?php
+        if (isset($invInfo['invMake']) && isset ($invInfo['invModel'])){
+            echo "Modify $invInfo[invMake] $invInfo[invModel]";
+        } elseif (isset($invMake) && isset($invModel)) {
+            echo "Modify $invMake $invModel";
+        }?> | PHP Motors</title>
         <link href="/0_cse340_web_backend1/phpmotors/css/style.css" type="text/css" rel="stylesheet" media="screen">
     </head>
     <body>
@@ -37,49 +46,55 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                     <!-- <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?> -->
                     <?php echo $navList;?>
                 </nav>
-                <h1>Add New Vehicle</h1>
+                <h1><?php
+                    if (isset($invInfo['invMake']) && isset ($invInfo['invModel'])){
+                        echo "Modify $invInfo[invMake] $invInfo[invModel]";
+                    } elseif (isset($invMake) && isset($invModel)) {
+                        echo "Modify $invMake $invModel";
+                    }?>
+                </h1>
 
                 <?php 
                     if (isset($_SESSION['message'])) {
                         echo $_SESSION['message'];
                     }
                 ?>
-                <form action="../vehicles/" method="post" id="newVehicleForm">
+                <form action="../vehicles/" method="post" id="modifyVehicleForm">
                     <label for="invMake">*Make: </label>
                     <span>Make can be no more than 30 characters</span>
-                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";}  ?>><br>
+                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";} elseif(isset($invInfo['invMake'])){echo "value='$invInfo[invMake]'"; }  ?>><br>
 
                     <label for="invModel">*Model: </label>
                     <span>Model can be no more than 30 characters</span>
-                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";}  ?>><br>
+                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";} elseif(isset($invInfo['invModel'])){echo "value='$invInfo[invModel]'"; }  ?>><br>
 
                     <label for="invDescription">*Description: </label>
-                    <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;}  ?></textarea><br>
+                    <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;} elseif(isset($invInfo['invDescription'])){echo "value='$invInfo[invDescription]'"; }  ?></textarea><br>
 
                     <label for="invImage">Image: </label>
                     <span>Image URL can be no more than 50 characters</span>
-                    <input type="text" name="invImage" id="invImage" value="../images/no-image.png" required <?php if(isset($invImage)){echo "value='$invImage'";}  ?>><br>
+                    <input type="text" name="invImage" id="invImage" value="../images/no-image.png" required <?php if(isset($invImage)){echo "value='$invImage'";} elseif(isset($invInfo['invImage'])){echo "value='$invInfo[invImage]'"; }  ?>><br>
 
                     <label for="invThumbnail">Image Thumbnail: </label>
                     <span>Thumbnail URL can be no more than 50 characters</span>
-                    <input type="text" name="invThumbnail" id="invThumbnail" value="../images/no-image.png" required <?php if(isset($invThumbnail)){echo "value='$invThumbnail'";}  ?>><br>
+                    <input type="text" name="invThumbnail" id="invThumbnail" value="../images/no-image.png" required <?php if(isset($invThumbnail)){echo "value='$invThumbnail'";} elseif(isset($invInfo['invThumbnail'])){echo "value='$invInfo[invThumbnail]'"; }  ?>><br>
 
                     <label for="invPrice">*Price: </label>
-                    <input type="number" name="invPrice" id="invPrice" required <?php if(isset($invPrice)){echo "value='$invPrice'";}  ?>><br>
+                    <input type="number" name="invPrice" id="invPrice" required <?php if(isset($invPrice)){echo "value='$invPrice'";} elseif(isset($invInfo['invPrice'])){echo "value='$invInfo[invPrice]'"; }  ?>><br>
 
                     <label for="invStock">*Total in Stock: </label>
                     <span>Stock can be no more than 6 digits</span>
-                    <input type="number" name="invStock" id="invStock" required pattern="[0-9]{1,6}" <?php if(isset($invStock)){echo "value='$invStock'";}  ?>><br>
+                    <input type="number" name="invStock" id="invStock" required pattern="[0-9]{1,6}" <?php if(isset($invStock)){echo "value='$invStock'";} elseif(isset($invInfo['invStock'])){echo "value='$invInfo[invStock]'"; }  ?>><br>
 
                     <label for="invColor">*Color: </label>
                     <span>Color can be no more than 20 characters</span>
-                    <input type="text" name="invColor" id="invColor" required pattern="[A-Za-z0-9]{1,20}" <?php if(isset($invColor)){echo "value='$invColor'";}  ?>><br>
+                    <input type="text" name="invColor" id="invColor" required pattern="[A-Za-z0-9]{1,20}" <?php if(isset($invColor)){echo "value='$invColor'";} elseif(isset($invInfo['invColor'])){echo "value='$invInfo[invColor]'"; }  ?>><br>
 
                     <label for="carClassification">*Vehicle Classification: </label>
                     <?php echo $classifList;?><br>
 
-                    <input type="submit" name="submit" id="regbtn" value="Submit">
-                    <input type="hidden" name="action" value="newVehicle">
+                    <input type="submit" name="submit" id="regbtn" value="Update Vehicle">
+                    <input type="hidden" name="action" value="updateVehicle">
                     <p>Areas marked with * indicate required fields.</p>
                 </form>
             
