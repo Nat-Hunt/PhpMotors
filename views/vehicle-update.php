@@ -69,7 +69,7 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                     <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";} elseif(isset($invInfo['invModel'])){echo "value='$invInfo[invModel]'"; }  ?>><br>
 
                     <label for="invDescription">*Description: </label>
-                    <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;} elseif(isset($invInfo['invDescription'])){echo "value='$invInfo[invDescription]'"; }  ?></textarea><br>
+                    <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;} elseif(isset($invInfo['invDescription'])){echo "$invInfo[invDescription]"; }  ?></textarea><br>
 
                     <label for="invImage">Image: </label>
                     <span>Image URL can be no more than 50 characters</span>
