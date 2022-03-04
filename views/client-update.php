@@ -82,11 +82,11 @@
                     <label for="confirmPassword">*Confirm Password</label>
                     <input type="password" name="confirmPassword" id="confirmPassword" required pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"><br>
                     
-                    <label for="clientPassword">* New Password</label>
+                    <label for="clientPassword">*New Password</label>
                     <span>Passwords must be at least 8 characters and contain at least 1 number, 1 capital letter and 1 special character</span>
                     <input type="password" name="clientPassword" id="clientPassword" required pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"><br>
                     
-                    <input type="submit" name="submit" id="regbtn" value="Submit">
+                    <input type="submit" name="submit" id="passregbtn" value="Submit">
                     <input type="hidden" name="action" value="changePassword">
                     <input type="hidden" name="clientId" value="<?php
                         if(isset($_SESSION['clientData']['clientId'])){
