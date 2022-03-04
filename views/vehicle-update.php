@@ -62,11 +62,11 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                 <form action="../vehicles/" method="post" id="modifyVehicleForm">
                     <label for="invMake">*Make: </label>
                     <span>Make can be no more than 30 characters</span>
-                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";} elseif(isset($invInfo['invMake'])){echo "value='$invInfo[invMake]'"; }  ?>><br>
+                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9\s]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";} elseif(isset($invInfo['invMake'])){echo "value='$invInfo[invMake]'"; }  ?>><br>
 
                     <label for="invModel">*Model: </label>
                     <span>Model can be no more than 30 characters</span>
-                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";} elseif(isset($invInfo['invModel'])){echo "value='$invInfo[invModel]'"; }  ?>><br>
+                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9\s]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";} elseif(isset($invInfo['invModel'])){echo "value='$invInfo[invModel]'"; }  ?>><br>
 
                     <label for="invDescription">*Description: </label>
                     <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;} elseif(isset($invInfo['invDescription'])){echo "$invInfo[invDescription]"; }  ?></textarea><br>
@@ -95,6 +95,9 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
 
                     <input type="submit" name="submit" id="regbtn" value="Update Vehicle">
                     <input type="hidden" name="action" value="updateVehicle">
+                    <input type="hidden" name="invId" value="<?php if(isset($invInfo['invId'])){echo $invInfo['invId'];}
+                    elseif(isset($invId)){echo $invId;} ?>
+                    ">
                     <p>Areas marked with * indicate required fields.</p>
                 </form>
             
@@ -106,3 +109,4 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
         </div>
     </body>
 </html>
+<?php unset($_SESSION['message']);?>

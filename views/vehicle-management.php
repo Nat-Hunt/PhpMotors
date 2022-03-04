@@ -30,8 +30,8 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                 </ul>
                 <div id="vehiclesByClassification">
                 <?php
-                    if (isset($message)){
-                        echo $message;
+                    if (isset($_SESSION['message'])) {
+                        echo $_SESSION['message'];
                     }
                     if (isset($classificationList)){
                         echo '<h2>Vehicles By Classification</h2>';
@@ -54,3 +54,4 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
         <script src="../js/inventory.js"></script>
     </body>
 </html>
+<?php unset($_SESSION['message']);?>

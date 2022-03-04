@@ -47,11 +47,11 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                 <form action="../vehicles/" method="post" id="newVehicleForm">
                     <label for="invMake">*Make: </label>
                     <span>Make can be no more than 30 characters</span>
-                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";}  ?>><br>
+                    <input type="text" name="invMake" id="invMake" required pattern="[A-Za-z0-9\s]{1,30}" <?php if(isset($invMake)){echo "value='$invMake'";}  ?>><br>
 
                     <label for="invModel">*Model: </label>
                     <span>Model can be no more than 30 characters</span>
-                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";}  ?>><br>
+                    <input type="text" name="invModel" id="invModel" required pattern="[A-Za-z0-9\s]{1,30}" <?php if(isset($invModel)){echo "value='$invModel'";}  ?>><br>
 
                     <label for="invDescription">*Description: </label>
                     <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;}  ?></textarea><br>
@@ -91,3 +91,4 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
         </div>
     </body>
 </html>
+<?php unset($_SESSION['message']);?>

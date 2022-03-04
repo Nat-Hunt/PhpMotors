@@ -38,7 +38,7 @@
             // exit;
             // Check for missing data
             if(empty($clientEmail) || empty($checkPassword)) {
-                $_SESSION['message'] = '<p >Please provide information for all empty fields.</p>';
+                $_SESSION['message'] = '<p class="notice">Please provide information for all empty fields.</p>';
                 include '../views/login.php';
                 exit;
             }
@@ -47,7 +47,7 @@
             // Query the client data based on the email address
             $clientData = getClient($clientEmail);
             if (empty($clientData)){
-                $_SESSION['message'] = '<p class="notice"Invalid username or password</p>';
+                $_SESSION['message'] = '<p class="notice">Invalid username or password</p>';
                 include '../views/login.php';
                 exit;
             }
@@ -103,7 +103,7 @@
             $checkPassword = checkPassword($clientPassword);
             // Check for missing data
             if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail) || empty($checkPassword)) {
-                $_SESSION['message'] = '<p>Please provide information for all empty form fields.</p>';
+                $_SESSION['message'] = '<p class="notice">Please provide information for all empty form fields.</p>';
                 include '../views/registration.php';
                 exit;
             }
@@ -114,12 +114,104 @@
             $regOutcome = regClient($clientFirstname, $clientLastname, $clientEmail, $hashedPassword);
             if($regOutcome === 1){
                 setcookie('firstname', $clientFirstname, strtotime('+1 year'), '/');
-                $_SESSION['message'] = "<p>Thanks for registering $clientFirstname. Please use your email and password to login.</p>";
+                $_SESSION['message'] = '<p class="notice">Thanks for registering '.$clientFirstname.'. Please use your email and password to login.</p>';
                 header('Location: ../accounts/?action=login');
                 exit;
             } else {
-                $_SESSION['message'] = "<p>Sorry $clientFirstname, but the registration failed. Please try again.</p>";
+                $_SESSION['message'] = '<p class="notice">Sorry '.$clientFirstname.', but the registration failed. Please try again.</p>';
                 include '../views/registration.php';
+                exit;
+            }
+            break;
+        case 'updateAccountInfo':
+            include '../views/client-update.php';
+            break;
+        case 'updateAccount':
+            $clientId = filter_input(INPUT_POST, 'clientId', FILTER_VALIDATE_INT);
+            $clientFirstname = trim(filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_STRING));
+            $clientLastname = trim(filter_input(INPUT_POST, 'clientLastname', FILTER_SANITIZE_STRING));
+            $clientEmail = trim(filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL));
+
+            // Check for an existing email address
+            if ($_SESSION['clientData']['clientEmail'] != $clientEmail){
+                $existingEmail = checkExistingEmail($clientEmail);
+                if($existingEmail) {
+                    $_SESSION['message'] = '<p class="notice">That email address already exists.</p>';
+                    include '../views/client-update.php';
+                    exit;
+                }
+            }
+            // Validate input
+            $clientEmail = checkEmail($clientEmail);
+            // Check for missing data
+            if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail)){
+                $_SESSION['message'] = '<p class="notice">Please provide information for all empty form fields.</p>';
+                include '../views/client-update.php';
+                exit;
+            }
+
+            // Send the data to the model
+            $updateOutcome = updateClient($clientId, $clientFirstname, $clientLastname, $clientEmail);
+            if($updateOutcome === 1){
+                unset($_SESSION['clientData']);
+                $_SESSION['clientData'] = getClientById($clientId);
+                setcookie('firstname', $clientFirstname, strtotime('+1 year'), '/');
+                $_SESSION['message'] = '<p class="notice">'.$clientFirstname.', your account information has been succesfully updated.</p>';
+                header('Location: ../accounts/');
+                exit;
+            } else {
+                $_SESSION['message'] = '<p class="notice">Sorry '.$clientFirstname.', but the account information update failed. Please try again.</p>';
+                include '../accounts/';
+                exit;
+            }
+            break;
+        case 'changePassword':
+            $clientId = filter_input(INPUT_POST, 'clientId', FILTER_VALIDATE_INT);
+            $oldPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING));
+            $confirmPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING));
+            $clientPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING));
+
+            $checkPassword1 = checkPassword($oldPassword);
+            $checkPassword2 = checkPassword($confirmPassword);
+            $checkPassword3 = checkPassword($clientPassword);
+            // Check for missing data
+            if(empty($checkPassword1) || empty($checkPassword2) || empty($checkPassword3)) {
+                $_SESSION['passwordMessage'] = '<p class="notice">Invalid Password</p>';
+                include '../views/client-update.php';
+                exit;
+            }
+
+            // Check that the old and confirm passwords are the same
+            $checkPasswordConfirmation = password_verify($confirmPassword, password_hash($oldPassword, PASSWORD_DEFAULT));
+            if(!$checkPasswordConfirmation){
+                $_SESSION['passwordMessage'] = '<p class="notice">Failed to confirm the old password</p>';
+                include '../views/client-update.php';
+                exit;
+            }
+            $clientData = getClientById($clientId);
+            // Compare the password just submitted against
+            // the hashed password for the matching client
+            $hashCheck = password_verify($oldPassword, $clientData['clientPassword']);
+            // if the hashes don't match create an error
+            // and return to the client-update view
+            if(!$hashCheck){
+                $_SESSION['passwordMessage'] = '<p class="notice">Invalid password</p>';
+                include '../views/client-update.php';
+                exit;
+            }
+
+            // Hash the checked password
+            $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
+
+            // Send the data to the model
+            $passwordOutcome = changePassword($clientId, $hashedPassword);
+            if($passwordOutcome === 1){
+                $_SESSION['message'] = '<p class="notice">Password changed successfully.</p>';
+                header('Location: ../accounts/');
+                exit;
+            } else {
+                $_SESSION['message'] = '<p class="notice">Pasword update failed. Please try again.</p>';
+                include '../accounts/';
                 exit;
             }
             break;

@@ -14,27 +14,27 @@ function checkPassword($clientPassword) {
 }
 
 function checkName($classificationName){
-    $pattern = '/^[a-zA-Z0-9]{1,30}$/';
+    $pattern = '/^[a-zA-Z0-9\s]{1,30}$/';
     return preg_match($pattern, $classificationName);
 }
 
 function checkMake($invMake){
-    $pattern = '/^[a-zA-Z0-9]{1,30}$/';
+    $pattern = '/^[a-zA-Z0-9\s]{1,30}$/';
     return preg_match($pattern, $invMake);
 }
 
 function checkModel($invModel){
-    $pattern = '/^[a-zA-Z0-9]{1,30}$/';
+    $pattern = '/^[a-zA-Z0-9\s]{1,30}$/';
     return preg_match($pattern, $invModel);
 }
 
 function checkImage($invImage){
-    $pattern = '/^[a-zA-Z0-9]{1,50}$/';
+    $pattern = '/^[a-zA-Z0-9\w\S]{1,50}$/';
     return preg_match($pattern, $invImage);
 }
 
 function checkThumbnail($invThumbnail){
-    $pattern = '/^[a-zA-Z0-9]{1,30}$/';
+    $pattern = '/^[a-zA-Z0-9\w\S]{1,30}$/';
     return preg_match($pattern, $invThumbnail);
 }
 

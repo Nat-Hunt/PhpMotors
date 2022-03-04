@@ -47,3 +47,4 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
         </div>
     </body>
 </html>
+<?php unset($_SESSION['message']);?>

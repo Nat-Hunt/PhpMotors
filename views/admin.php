@@ -11,7 +11,7 @@ if (isset($_SESSION['loggedin'])){
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Template | PHP Motors</title>
+        <title>My Account | PHP Motors</title>
         <link href="/0_cse340_web_backend1/phpmotors/css/style.css" type="text/css" rel="stylesheet" media="screen">
     </head>
     <body>
@@ -26,17 +26,25 @@ if (isset($_SESSION['loggedin'])){
                     <?php echo $navList;?>
                 </nav>
                 <h1><?php 
-                echo $_SESSION['clientData']['clientFirstname'], " ";
-                echo $_SESSION['clientData']['clientLastname'];
+                    echo $_SESSION['clientData']['clientFirstname'], " ";
+                    echo $_SESSION['clientData']['clientLastname'];
                 ?></h1>
+                <?php 
+                    if (isset($_SESSION['message'])){
+                        echo $_SESSION['message'];
+                    }
+                ?>
                 <ul>
                 <li>First Name: <?php echo $_SESSION['clientData']['clientFirstname'];?></li>
                 <li>Last Name: <?php echo $_SESSION['clientData']['clientLastname'];?></li>
                 <li>Email Address: <?php echo $_SESSION['clientData']['clientEmail'];?></li>
+                <li><a href="../accounts/?action=updateAccountInfo">Update Account Information</a></li>
                 </ul>
                 <?php 
                     if ($_SESSION['clientData']['clientLevel'] > 1) {
-                        echo '<p><a href="../vehicles/">Vehicles Management</a></p>';
+                        echo '<div><h3>Inventory Management</h3>';
+                        echo '<p>Add new vehicles, add new classifications, update existing vehicles, and delete inventory.</p>';
+                        echo '<p><a href="../vehicles/">Vehicles Management</a></p></div>';
                     }
                 ?>
                 
@@ -49,3 +57,4 @@ if (isset($_SESSION['loggedin'])){
         </div>
     </body>
 </html>
+<?php unset($_SESSION['message']);?>

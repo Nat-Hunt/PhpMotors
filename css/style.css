@@ -40,6 +40,14 @@ html {
     padding: 5px;
 }
 
+.notice {
+    /* color: red; */
+    font-size: 1.2em;
+    font-style: italic;
+    grid-column: 1 / -1;
+    align-self: center;
+    justify-self: center;
+}
 
 /* Header styles */
 header {
@@ -212,6 +220,10 @@ form {
 input, label {
     height: 1.5em;
 }
+#deleteVehicleForm{
+    align-content: center;
+    justify-items: center;
+}
 /* #registrationForm {
 
 } */
@@ -219,14 +231,13 @@ input, label {
 
 @media (max-width: 800px) {
     nav {
-        line-height: 1em;
+        line-height: 2em;
         font-size: 1em;
     }
     #navul {
         list-style-type: none;
         background-color: var(--accent2);
-        display: flex;
-        padding-left: 0
+        display: grid;
     }
     nav a {
         color: var(--accent3);
