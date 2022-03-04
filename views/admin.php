@@ -42,7 +42,7 @@ if (isset($_SESSION['loggedin'])){
                 </ul>
                 <?php 
                     if ($_SESSION['clientData']['clientLevel'] > 1) {
-                        echo '<div><h3>Inventory Management</h3>';
+                        echo '<div><h2>Inventory Management</h2>';
                         echo '<p>Add new vehicles, add new classifications, update existing vehicles, and delete inventory.</p>';
                         echo '<p><a href="../vehicles/">Vehicles Management</a></p></div>';
                     }
