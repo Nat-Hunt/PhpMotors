@@ -167,8 +167,8 @@
             break;
         case 'changePassword':
             $clientId = filter_input(INPUT_POST, 'clientId', FILTER_VALIDATE_INT);
-            $oldPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING));
-            $confirmPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING));
+            $oldPassword = trim(filter_input(INPUT_POST, 'oldPassword', FILTER_SANITIZE_STRING));
+            $confirmPassword = trim(filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_STRING));
             $clientPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING));
 
             $checkPassword1 = checkPassword($oldPassword);
@@ -176,7 +176,7 @@
             $checkPassword3 = checkPassword($clientPassword);
             // Check for missing data
             if(empty($checkPassword1) || empty($checkPassword2) || empty($checkPassword3)) {
-                $_SESSION['passwordMessage'] = '<p class="notice">Invalid Password</p>';
+                $_SESSION['passwordMessage'] = '<p class="notice">Invalid Password (missing)</p>';
                 include '../views/client-update.php';
                 exit;
             }
@@ -189,13 +189,9 @@
                 exit;
             }
             $clientData = getClientById($clientId);
-            // Compare the password just submitted against
-            // the hashed password for the matching client
             $hashCheck = password_verify($oldPassword, $clientData['clientPassword']);
-            // if the hashes don't match create an error
-            // and return to the client-update view
             if(!$hashCheck){
-                $_SESSION['passwordMessage'] = '<p class="notice">Invalid password</p>';
+                $_SESSION['passwordMessage'] = '<p class="notice">Invalid password (old didn not match)</p>';
                 include '../views/client-update.php';
                 exit;
             }
