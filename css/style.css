@@ -28,7 +28,7 @@ span {
 }
 
 html {
-    background-image: url("../images/site/checkerboard.jpg");
+    background-image: url("../images/site/small_check.jpg");
 }
 #wrapper {
     background-color: var(--accent3);
@@ -128,6 +128,7 @@ a:hover {
 }
 
 
+
 #upgrades {
     grid-column: 1 / -1;
 }
@@ -196,6 +197,7 @@ a:hover {
 }
 /* Footer styles */
 footer {
+    grid-column: 1 / -1;
     border-top: 3px solid var(--accent2);
 }
 footer p{
@@ -224,10 +226,32 @@ input, label {
     align-content: center;
     justify-items: center;
 }
-/* #registrationForm {
 
-} */
+#inv-display{
+    grid-column: 1 / -1;
+    /* align-self: center;
+    justify-self: center; */
+    display: flex;
+}
 
+#inv-display h2{
+    font-size: 1rem;
+}
+
+#inv-display li {
+    border: 1px solid var(--primary-color);
+    max-width: 200px;
+    flex: 1 0 auto;
+    text-align: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+#inv-display div {
+    width: 100%;
+}
 
 @media (max-width: 800px) {
     nav {
@@ -251,5 +275,26 @@ input, label {
 
     #upgradesDiv, #reviewsDiv {
         grid-column: 1 / -1;
+    }
+
+    #inv-display{
+        grid-column: 1 / -1;
+        align-self: center;
+        justify-self: center;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #inv-display li{
+        margin-bottom: .5em;
+        border: 1px #ccc solid;
+        list-style-type: none;
+        flex: 1 1 auto;
+    }
+    
+    #inv-display li img {
+        max-width: 100%;
     }
 }

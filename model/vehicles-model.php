@@ -126,4 +126,19 @@ function deleteVehicle($invId) {
     $stmt->closeCursor();
     return $rowsChanged;
 }
+
+function getVehiclesByClassification($classificationName){
+    $db = phpmotorsConnect();
+    // would it not be better simply to store the classificationId
+    // with the nav list as an additional name-value pair? It would
+    // query the database less often. 
+    // Is the way we were told to do this better from a security standpoint?
+    $sql = 'SELECT * FROM inventory WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName)';
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':classificationName', $classificationName, PDO::PARAM_STR);
+    $stmt->execute();
+    $vehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    return $vehicles;
+}
 ?>

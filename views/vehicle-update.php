@@ -72,12 +72,28 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                     <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;} elseif(isset($invInfo['invDescription'])){echo "$invInfo[invDescription]"; }  ?></textarea><br>
 
                     <label for="invImage">Image: </label>
-                    <span>Image URL can be no more than 50 characters</span>
-                    <input type="text" name="invImage" id="invImage" value="../images/no-image.png" required <?php if(isset($invImage)){echo "value='$invImage'";} elseif(isset($invInfo['invImage'])){echo "value='$invInfo[invImage]'"; }  ?>><br>
+                    <input type="text" name="invImage" id="invImage" required 
+                        <?php
+                            if(isset($invImage)){
+                                echo "value='$invImage'";
+                            } elseif(isset($invInfo['invImage'])){
+                                echo "value='$invInfo[invImage]'";
+                            } else {
+                                echo 'value="../images/vehicles/no-image.png"';
+                            }
+                            ?>><br>
 
                     <label for="invThumbnail">Image Thumbnail: </label>
-                    <span>Thumbnail URL can be no more than 50 characters</span>
-                    <input type="text" name="invThumbnail" id="invThumbnail" value="../images/no-image.png" required <?php if(isset($invThumbnail)){echo "value='$invThumbnail'";} elseif(isset($invInfo['invThumbnail'])){echo "value='$invInfo[invThumbnail]'"; }  ?>><br>
+                    <input type="text" name="invThumbnail" id="invThumbnail" required 
+                        <?php
+                            if(isset($invThumbnail)){
+                                echo "value='$invThumbnail'";
+                            } elseif(isset($invInfo['invThumbnail'])){
+                                echo "value='$invInfo[invThumbnail]'"; 
+                            } else {
+                                echo 'value="../images/vehicles/no-image-tn.png"';
+                            }
+                        ?>><br>
 
                     <label for="invPrice">*Price: </label>
                     <input type="number" name="invPrice" id="invPrice" required <?php if(isset($invPrice)){echo "value='$invPrice'";} elseif(isset($invInfo['invPrice'])){echo "value='$invInfo[invPrice]'"; }  ?>><br>

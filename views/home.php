@@ -27,7 +27,7 @@
                     </ul>
                     <img id="own_today" alt="own today" src="images/site/own_today.png">
                 </div>
-                <img id="bannerImgDelorean" alt="black and white image of delorean" src="images/delorean.jpg">
+                <img id="bannerImgDelorean" alt="black and white image of delorean" src="images/vehicles/delorean.jpg">
 
                 <div id="upgradesDiv">    
                     <h2 id="upgrades">Delorean Upgrades</h2>

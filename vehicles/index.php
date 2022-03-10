@@ -64,14 +64,6 @@
             if ($checkModel == 0) {
                 $invModel = NULL;
             }
-            $checkImage = checkImage($invImage);
-            if ($checkImage == 0) {
-                $invImage = NULL;
-            }
-            $checkThumbnail = checkThumbnail($invThumbnail);
-            if ($checkThumbnail == 0) {
-                $invThumbnail = NULL;
-            }
             $checkStock = checkStock($invStock);
             if ($checkStock == 0) {
                 $invStock = NULL;
@@ -147,16 +139,6 @@
                 $invModel = NULL;
                 // $_SESSION['message'] .= "<li>checkModel</li>";
             }
-            $checkImage = checkImage($invImage);
-            if ($checkImage == 0) {
-                $invImage = NULL;
-                // $_SESSION['message'] .= "<li>checkImage</li>";
-            }
-            $checkThumbnail = checkThumbnail($invThumbnail);
-            if ($checkThumbnail == 0) {
-                $invThumbnail = NULL;
-                // $_SESSION['message'] .= "<li>checkThumbnail</li>";
-            }
             $checkStock = checkStock($invStock);
             if ($checkStock == 0) {
                 $invStock = NULL;
@@ -210,6 +192,18 @@
                 include '../views/vehicle-delete.php';
                 exit;
             }
+            break;
+        case 'classification':
+            $classificationName = filter_input(INPUT_GET, 'classificationName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $vehicles = getVehiclesByClassification($classificationName);
+            if(!count($vehicles)){
+                $_SESSION['message'] = '<p class="notice">Sorry, no '.$classificationName.' vehicles could be found.</p>';
+            } else {
+                $vehicleDisplay = buildVehiclesDisplay($vehicles);
+            }
+            // echo $vehicleDisplay;
+            // exit;
+            include '../views/classification.php';
             break;
         default:
             $classificationList = buildClassificationList($classifications);
