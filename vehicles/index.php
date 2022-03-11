@@ -199,11 +199,23 @@
             if(!count($vehicles)){
                 $_SESSION['message'] = '<p class="notice">Sorry, no '.$classificationName.' vehicles could be found.</p>';
             } else {
+                // var_dump($vehicles);
+                // exit;
                 $vehicleDisplay = buildVehiclesDisplay($vehicles);
             }
             // echo $vehicleDisplay;
             // exit;
             include '../views/classification.php';
+            break;
+        case 'getCarInfo':
+            $carId = filter_input(INPUT_GET, 'carId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $carInfo = getInvItemInfo($carId);
+            if(empty($carInfo)){
+                $_SESSION['message'] = '<p class="notice">Sorry, no information could be found.</p>';
+            } else {
+                $vehicleDetailView = buildVehicleDetails($carInfo);
+            }
+            include '../views/vehicle-detail.php';
             break;
         default:
             $classificationList = buildClassificationList($classifications);

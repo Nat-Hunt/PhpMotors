@@ -68,11 +68,32 @@ function buildVehiclesDisplay($vehicles){
         $dv .= '<li>';
         $dv .= "<img src='$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'>";
         $dv .= '<hr>';
-        $dv .= "<h2>$vehicle[invMake] $vehicle[invModel]</h2>";
-        $dv .= "<span>$vehicle[invPrice]</span>";
+        $dv .= "<h2><a href='/0_cse340_web_backend1/phpmotors/vehicles/?action=getCarInfo&carId=".urlencode($vehicle['invId'])."'>$vehicle[invMake] $vehicle[invModel]</a></h2>";
+        $dv .= "<span>$".number_format($vehicle['invPrice'], 2)."</span>";
         $dv .= '</li>';
     }
-    $dv .= '</ul';
+    $dv .= '</ul>';
+    return $dv;
+}
+
+function buildVehicleDetails($carInfo){
+    $make = $carInfo['invMake'];
+    $model = $carInfo['invModel'];
+    $color = $carInfo['invColor'];
+    $description = $carInfo['invDescription'];
+    $image = $carInfo['invImage'];
+    $price = number_format($carInfo['invPrice'], 2);
+    $stock = $carInfo['invStock'];
+    
+    $dv = "<div id='vehicleDetails'>";
+    // $dv .= "<h2>$make $model</h2>";
+    $dv .= "<img class='leftColumn' src=$image alt='Image of $make $model on phpmotors.com'>";
+    $dv .= "<div class='rightColumn'>";
+    $dv .= "<p class='rightColumn'><strong>$$price</strong></p>";
+    $dv .= "<p class='rightColumn'>Quantity available: $stock</p>";
+    $dv .= "<p class='rightColumn'>$description</p>";
+    $dv .= "</div>";
+    $dv .= "</div>";
     return $dv;
 }
 ?>

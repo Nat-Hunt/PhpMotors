@@ -28,7 +28,7 @@ span {
 }
 
 html {
-    background-image: url("../images/site/small_check.jpg");
+    background-image: url("../images/site/checkerboard.jpg");
 }
 #wrapper {
     background-color: var(--accent3);
@@ -229,15 +229,11 @@ input, label {
 
 #inv-display{
     grid-column: 1 / -1;
-    /* align-self: center;
-    justify-self: center; */
     display: flex;
 }
-
 #inv-display h2{
     font-size: 1rem;
 }
-
 #inv-display li {
     border: 1px solid var(--primary-color);
     max-width: 200px;
@@ -248,10 +244,27 @@ input, label {
     flex-direction: column;
     justify-content: space-between;
 }
-  
 #inv-display div {
     width: 100%;
 }
+
+@media(min-width: 801px) {
+    #vehicleDetails{
+        grid-column: 1 / -1;
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-gap: 5px;
+    }
+    .leftColumn{
+        grid-column: 1;
+    }
+    .rightColumn{
+        grid-column: 2;
+    }
+}
+
 
 @media (max-width: 800px) {
     nav {
@@ -275,6 +288,12 @@ input, label {
 
     #upgradesDiv, #reviewsDiv {
         grid-column: 1 / -1;
+    }
+
+    #vehicleDetails{
+        grid-column: 1 / -1;
+        align-self: center;
+        justify-self: center;
     }
 
     #inv-display{
