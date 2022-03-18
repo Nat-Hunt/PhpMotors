@@ -71,12 +71,17 @@ function getInventoryByClassification($classificationId){
 // Get vehicle information by invId
 function getInvItemInfo($invId){
     $db = phpmotorsConnect();
-    $sql = 'SELECT * FROM inventory WHERE invId = :invId';
+    $sql = 'SELECT inv.invId, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invStock, inv.invColor, inv.classificationId, img.imgPath 
+    FROM inventory inv JOIN images img 
+    ON inv.invId = img.invId 
+    WHERE (inv.invId = :invId) AND (img.imgName NOT LIKE "%-tn.%") AND img.imgPrimary = 1';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
     $stmt->execute();
     $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
+    // var_dump($invInfo);
+    // exit;
     return $invInfo;
 }
 
@@ -133,12 +138,24 @@ function getVehiclesByClassification($classificationName){
     // with the nav list as an additional name-value pair? It would
     // query the database less often. 
     // Is the way we were told to do this better from a security standpoint?
-    $sql = 'SELECT * FROM inventory WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName)';
+    $sql = 'SELECT inv.invId, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invStock, inv.invColor, inv.classificationId, img.imgPath 
+    FROM inventory inv JOIN images img ON inv.invId = img.invId 
+    WHERE inv.classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName) AND img.imgName LIKE "%-tn.%" AND img.imgPrimary = 1';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':classificationName', $classificationName, PDO::PARAM_STR);
     $stmt->execute();
     $vehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     return $vehicles;
+}
+
+function getVehicles(){
+    $db = phpmotorsConnect();
+    $sql = 'SELECT invId, invMake, invModel FROM inventory';
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    return $invInfo;
 }
 ?>

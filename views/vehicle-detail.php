@@ -12,7 +12,7 @@
                 <?php require_once $_SERVER['DOCUMENT_ROOT'].'/0_cse340_web_backend1/phpmotors/snippets/header.php'; ?>
             </header>
             
-            <main>
+            <main id="vehicleDetailsPage">
                 <nav>
                     <!-- <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/0_cse340_web_backend1/phpmotors/snippets/navigation.php'; ?> -->
                     <?php echo $navList;?>
@@ -26,7 +26,11 @@
                 <?php
                     if (isset($vehicleDetailView)){
                         echo $vehicleDetailView;
-                    } 
+                    }
+                    if (isset($vehicleThumbnails)){
+                        echo "<h2 id='additionalImagesThumb'>Additional Images</h2>";
+                        echo $vehicleThumbnails;
+                    }
                 ?>
             
             </main>

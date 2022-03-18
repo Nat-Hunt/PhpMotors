@@ -1,6 +1,6 @@
 <?php
 
-    // This is the Accounts Controller
+    // This is the Vehicles Controller
 
     // Create or access a Session
     session_start();
@@ -9,6 +9,7 @@
     require_once '../library/functions.php';
     require_once '../model/main-model.php';
     require_once '../model/vehicles-model.php';
+    require_once '../model/uploads-model.php';
 
     $classifications = getClassifications();
     // var_dump($classifications);
@@ -210,10 +211,12 @@
         case 'getCarInfo':
             $carId = filter_input(INPUT_GET, 'carId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $carInfo = getInvItemInfo($carId);
+            $thumbnails = getThumbnails($carId);
             if(empty($carInfo)){
                 $_SESSION['message'] = '<p class="notice">Sorry, no information could be found.</p>';
             } else {
                 $vehicleDetailView = buildVehicleDetails($carInfo);
+                $vehicleThumbnails = buildVehicleThumbnails($thumbnails);
             }
             include '../views/vehicle-detail.php';
             break;
