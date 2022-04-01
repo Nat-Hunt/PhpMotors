@@ -56,32 +56,8 @@ if ($_SESSION['clientData']['clientLevel'] < 2) {
                     <label for="invDescription">*Description: </label>
                     <textarea name="invDescription" id="invDescription" required><?php if(isset($invDescription)){echo $invDescription;}  ?></textarea><br>
 
-                    <label for="invImage">Image: </label>
-                    <input type="text" name="invImage" id="invImage" required 
-                        <?php
-                            if(isset($invImage)){
-                                echo "value='$invImage'";
-                            } else {
-                                echo 'value="../images/vehicles/no-image.png"';
-                            }
-                        ?>><br>
-
-                    <label for="invThumbnail">Image Thumbnail: </label>
-                    <input type="text" name="invThumbnail" id="invThumbnail" required 
-                        <?php
-                            if(isset($invThumbnail)){
-                                echo "value='$invThumbnail'";
-                            } else {
-                                echo 'value="../images/vehicles/no-image.png"';
-                            }  
-                        ?>><br>
-
                     <label for="invPrice">*Price: </label>
                     <input type="number" name="invPrice" id="invPrice" required <?php if(isset($invPrice)){echo "value='$invPrice'";}  ?>><br>
-
-                    <label for="invStock">*Total in Stock: </label>
-                    <span>Stock can be no more than 6 digits</span>
-                    <input type="number" name="invStock" id="invStock" required pattern="[0-9]{1,6}" <?php if(isset($invStock)){echo "value='$invStock'";}  ?>><br>
 
                     <label for="invColor">*Color: </label>
                     <span>Color can be no more than 20 characters</span>

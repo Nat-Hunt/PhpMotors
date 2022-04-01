@@ -30,8 +30,7 @@
     switch ($action) {
         case 'upload':
             // Store the incoming vehicle id and primary picture indicator
-            $invId = filter_input(INPUT_POST, 'invId', FILTER_VALIDATE_INT);
-            $imgPrimary = filteR_input(INPUT_POST, 'imgPrimary', FILTER_VALIDATE_INT);
+            $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // Store the name of the uploaded image
             $imgName = $_FILES['file1']['name'];
@@ -47,7 +46,7 @@
                 $imgPath = uploadFile('file1');
 
                 // Insert the image information to the database, get the result
-                $result = storeImages($imgPath, $invId, $imgName, $imgPrimary);
+                $result = storeImages($imgPath, $invId, $imgName);
                 
                 // Set a message based on the insert result
                 if($result) {

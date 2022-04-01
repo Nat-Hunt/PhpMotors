@@ -1,5 +1,11 @@
 <?php
 
+// function console_log($data){
+//     echo '<script>';
+//     echo 'console.log('. json_encode($data) .')';
+//     echo '</script>';
+// }
+
 function checkEmail($clientEmail) {
     $valEmail = filter_var($clientEmail, FILTER_VALIDATE_EMAIL);
     return $valEmail;
@@ -26,11 +32,6 @@ function checkMake($invMake){
 function checkModel($invModel){
     $pattern = '/^[a-zA-Z0-9\s]{1,30}$/';
     return preg_match($pattern, $invModel);
-}
-
-function checkStock($invStock){
-    $pattern = '/^[0-9]{1,6}$/';
-    return preg_match($pattern, $invStock);
 }
 
 function checkColor($invColor){
@@ -83,14 +84,12 @@ function buildVehicleDetails($carInfo){
     $description = $carInfo['invDescription'];
     $image = $carInfo['imgPath'];
     $price = number_format($carInfo['invPrice'], 2);
-    $stock = $carInfo['invStock'];
     
     $dv = "<div id='vehicleDetails'>";
     // $dv .= "<h2>$make $model</h2>";
     $dv .= "<img class='leftColumn' src=$image alt='Image of $make $model on phpmotors.com'>";
     $dv .= "<div class='rightColumn'>";
     $dv .= "<p class='rightColumn'><strong>$$price</strong></p>";
-    $dv .= "<p class='rightColumn'>Quantity available: $stock</p>";
     $dv .= "<p class='rightColumn'>$description</p>";
     $dv .= "</div>";
     $dv .= "</div>";
@@ -103,6 +102,53 @@ function buildVehicleThumbnails($thumbnails){
         $dv .= "<li><img src=$thumbnail[imgPath] alt='Image of $thumbnail[invMake] $thumbnail[invModel] on phpmotors.com'></li>";
     }
     $dv .= "</ul>";
+    return $dv;
+}
+
+function buildSearchResultsView($searchResults, $totalPages, $totalResults, $currentPage, $query){
+
+    $dv = '';
+    $dv .= "<span id='countResults'>".$totalResults." results</span>";
+    $dv .= '<ul id="search-display">';
+    
+    if ($currentPage == 1){
+        $startingIndex = 0;
+    } elseif ($currentPage > 1) {
+        $startingIndex = $currentPage * 10 - 10;
+    }
+    $maxIndex = $startingIndex + 10;
+    if ($maxIndex > $totalResults) {
+        $maxIndex = $totalResults;
+    }
+    for ($i = $startingIndex; $i < $maxIndex; $i++){
+        $result = $searchResults[$i];
+        $dv .= '<li>';
+        $dv .= "<h2><a href='/0_cse340_web_backend1/phpmotors/vehicles/?action=getCarInfo&carId=".urlencode($result['invId'])."'>$result[invMake] $result[invModel]</a></h2>";
+        $dv .= "<img src='$result[imgPath]' alt='Image of $result[invMake] $result[invModel] on phpmotors.com'>";
+        $dv .= "<span>".$result['invDescription']."</span>";
+        $dv .= '</li>';
+    }
+
+    $dv .= '</ul>';
+    $dv .= "<div id='resultsPages'>";
+    if ($currentPage - 1 > 0) {
+        $previousPage = $currentPage - 1;
+        $dv .= "<a href='/0_cse340_web_backend1/phpmotors/vehicles/?action=searchInventory&searchBar=$query&pagination=$previousPage'>Previous</a>";
+    }
+    for ($i = 1; $i <= $totalPages; $i++){
+        if ($i == $currentPage) {
+            $dv .= "<span>$i</span>";
+        } else {
+            $dv .= "<a href='/0_cse340_web_backend1/phpmotors/vehicles/?action=searchInventory&searchBar=$query&pagination=$i'>$i</a>";
+        }
+    }
+    if ($currentPage + 1 <= $totalPages) {
+        $nextPage = $currentPage + 1;
+        $dv .= "<a href='/0_cse340_web_backend1/phpmotors/vehicles/?action=searchInventory&searchBar=$query&pagination=$nextPage'>Next</a>";
+    }
+    $dv.="</div>";
+    
+    // exit;
     return $dv;
 }
 

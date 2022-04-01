@@ -50,10 +50,7 @@
             $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_STRING));
             $invModel = trim(filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_STRING));
             $invDescription = trim(filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_STRING));
-            $invImage = trim(filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_URL));
-            $invThumbnail = trim(filter_input(INPUT_POST, 'invThumbnail', FILTER_SANITIZE_URL));
             $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
-            $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_SANITIZE_NUMBER_INT));
             $invColor = trim(filter_input(INPUT_POST, 'invColor', FILTER_SANITIZE_STRING));
             $classificationId = trim(filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_NUMBER_INT));
             // Verify inputs
@@ -65,24 +62,20 @@
             if ($checkModel == 0) {
                 $invModel = NULL;
             }
-            $checkStock = checkStock($invStock);
-            if ($checkStock == 0) {
-                $invStock = NULL;
-            }
             $checkColor = checkColor($invColor);
             if ($checkColor == 0) {
                 $invColor = NULL;
             }
             // Check for missing data
-            if(empty($checkMake) || empty($checkModel) || empty($invDescription) || empty($invPrice) || empty($checkStock) || empty($checkColor) || empty($classificationId)) {
+            if(empty($checkMake) || empty($checkModel) || empty($invDescription) || empty($invPrice) || empty($checkColor) || empty($classificationId)) {
                 $_SESSION['message'] = '<p class="notice">Please verify information for form fields.</p>';
                 include '../views/add-vehicle.php';
                 exit;
             }
             // Send the data to the model
-            $regOutcome = newVehicle($invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor, $classificationId);
+            $regOutcome = newVehicle($invMake, $invModel, $invDescription, $invPrice, $invColor, $classificationId);
             if($regOutcome === 1){
-                $_SESSION['message'] = '<p class="notice">Inventory update of '.$invMake.' '.$invModel.' successful. Current stock: '.$invStock.' Current price: '.$invPrice.'</p>';
+                $_SESSION['message'] = '<p class="notice">Inventory update of '.$invMake.' '.$invModel.' successful. Current price: '.$invPrice.'</p>';
                 include '../views/add-vehicle.php';
                 exit;
             } else {
@@ -122,10 +115,7 @@
             $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_STRING));
             $invModel = trim(filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_STRING));
             $invDescription = trim(filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_STRING));
-            $invImage = trim(filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_URL));
-            $invThumbnail = trim(filter_input(INPUT_POST, 'invThumbnail', FILTER_SANITIZE_URL));
             $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
-            $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_SANITIZE_NUMBER_INT));
             $invColor = trim(filter_input(INPUT_POST, 'invColor', FILTER_SANITIZE_STRING));
             $classificationId = trim(filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_NUMBER_INT));
             // Verify inputs
@@ -140,11 +130,6 @@
                 $invModel = NULL;
                 // $_SESSION['message'] .= "<li>checkModel</li>";
             }
-            $checkStock = checkStock($invStock);
-            if ($checkStock == 0) {
-                $invStock = NULL;
-                // $_SESSION['message'] .= "<li>checkStock</li>";
-            }
             $checkColor = checkColor($invColor);
             if ($checkColor == 0) {
                 $invColor = NULL;
@@ -152,15 +137,15 @@
             }
             // $_SESSION['message'] .= "</ul>";
             // Check for missing data
-            if(empty($checkMake) || empty($checkModel) || empty($checkStock) || empty($checkColor) || empty($invDescription) || empty($invPrice) || empty($classificationId)) {
+            if(empty($checkMake) || empty($checkModel) || empty($checkColor) || empty($invDescription) || empty($invPrice) || empty($classificationId)) {
                 $_SESSION['message'] .= '<p class="notice">Please verify information for form fields.</p>';
                 include '../views/vehicle-update.php';
                 exit;
             }
             // Send the data to the model
-            $updateResult = updateVehicle($invId, $invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor, $classificationId);
+            $updateResult = updateVehicle($invId, $invMake, $invModel, $invDescription, $invPrice, $invColor, $classificationId);
             if($updateResult){
-                $_SESSION['message'] = '<p class="notice">Update of '.$invMake.' '.$invModel.' successful. Current stock: '.$invStock.' Current price: '.$invPrice.'</p>';
+                $_SESSION['message'] = '<p class="notice">Update of '.$invMake.' '.$invModel.' successful. Current price: '.$invPrice.'</p>';
                 header('location: ../vehicles');
                 exit;
             } else {
@@ -219,6 +204,42 @@
                 $vehicleThumbnails = buildVehicleThumbnails($thumbnails);
             }
             include '../views/vehicle-detail.php';
+            break;
+        case 'searchInventory':
+            $query = filter_input(INPUT_GET, 'searchBar', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $currentPage = filter_input(INPUT_GET, 'pagination', FILTER_VALIDATE_INT);
+
+            if (isset($_SESSION['query'])) {
+                if ($query == $_SESSION['query']) {
+                    if(!isset($_SESSION['results'])){
+                        $searchResults = getInvSearchResults($query);
+                        $_SESSION['results'] = $searchResults;
+                    } else {
+                        $searchResults = $_SESSION['results'];
+                    }
+                } else {
+                    $searchResults = getInvSearchResults($query);
+                    $_SESSION['results'] = $searchResults;
+                    $_SESSION['query'] = $query;
+                }
+            } else {
+                $searchResults = getInvSearchResults($query);
+                $_SESSION['results'] = $searchResults;
+                $_SESSION['query'] = $query;
+            }
+
+            // console_log($searchResults);
+
+            if(empty($searchResults)){
+                $_SESSION['message'] = '<p class="notice">Sorry, no information could be found.</p>';
+            } else {
+                $totalResults = count($searchResults);
+                $totalPages = ceil($totalResults / 10);
+
+                $searchResultsView = buildSearchResultsView($searchResults, $totalPages, $totalResults, $currentPage, $query);
+            }
+
+            include '../views/search-results.php';
             break;
         default:
             $classificationList = buildClassificationList($classifications);

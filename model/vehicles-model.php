@@ -27,11 +27,11 @@ function newClass($classificationName){
 }
 
 // Create a new vehicle
-function newVehicle($invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor, $classificationId) {
+function newVehicle($invMake, $invModel, $invDescription, $invPrice, $invColor, $classificationId) {
     $db = phpmotorsConnect();
     // The SQL statement
-    $sql = 'INSERT INTO inventory (invMake, invModel, invDescription, invImage, invThumbnail, invPrice, invStock, invColor, classificationId)
-        VALUES (:invMake, :invModel, :invDescription, :invImage, :invThumbnail, :invPrice, :invStock, :invColor, :classificationId)';
+    $sql = 'INSERT INTO inventory (invMake, invModel, invDescription, invPrice, invColor, classificationId)
+        VALUES (:invMake, :invModel, :invDescription, :invPrice, :invColor, :classificationId)';
     //Create the prepared statement using the php_motors connection
     $stmt = $db->prepare($sql);
     // The next four lines replace the placeholders in the SQL
@@ -40,10 +40,7 @@ function newVehicle($invMake, $invModel, $invDescription, $invImage, $invThumbna
     $stmt->bindValue(':invMake', $invMake, PDO::PARAM_STR);
     $stmt->bindValue(':invModel', $invModel, PDO::PARAM_STR);
     $stmt->bindValue(':invDescription', $invDescription, PDO::PARAM_STR);
-    $stmt->bindValue(':invImage', $invImage, PDO::PARAM_STR);
-    $stmt->bindValue(':invThumbnail', $invThumbnail, PDO::PARAM_STR);
     $stmt->bindValue(':invPrice', $invPrice, PDO::PARAM_STR);
-    $stmt->bindValue(':invStock', $invStock, PDO::PARAM_STR);
     $stmt->bindValue(':invColor', $invColor, PDO::PARAM_STR);
     $stmt->bindValue(':classificationId', $classificationId, PDO::PARAM_STR);
     // Insert the data
@@ -70,13 +67,15 @@ function getInventoryByClassification($classificationId){
 
 // Get vehicle information by invId
 function getInvItemInfo($invId){
+    // echo $invId;
+    // exit;
     $db = phpmotorsConnect();
-    $sql = 'SELECT inv.invId, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invStock, inv.invColor, inv.classificationId, img.imgPath 
+    $sql = 'SELECT inv.invId, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invColor, inv.classificationId, img.imgPath 
     FROM inventory inv JOIN images img 
     ON inv.invId = img.invId 
-    WHERE (inv.invId = :invId) AND (img.imgName NOT LIKE "%-tn.%") AND img.imgPrimary = 1';
+    WHERE (inv.invId = :invId) AND (img.imgName NOT LIKE "%-tn.%")';
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
     $stmt->execute();
     $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
@@ -86,27 +85,22 @@ function getInvItemInfo($invId){
 }
 
 // Update an existing vehicle
-function updateVehicle($invId, $invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor, $classificationId) {
+function updateVehicle($invId, $invMake, $invModel, $invDescription, $invPrice, $invColor, $classificationId) {
     $db = phpmotorsConnect();
     // The SQL statement
     $sql = 'UPDATE inventory SET invMake = :invMake, invModel = :invModel,
-        invDescription = :invDescription, invImage = :invImage,
-        invThumbnail = :invThumbnail, invPrice = :invPrice,
-        invStock = :invStock, invColor = :invColor,
+        invDescription = :invDescription, invPrice = :invPrice, invColor = :invColor,
         classificationId = :classificationId WHERE invId = :invId';
     //Create the prepared statement using the php_motors connection
     $stmt = $db->prepare($sql);
     // The next four lines replace the placeholders in the SQL
     // statement with the actual values in the variables
     // and tell sthe database the type of data it is
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
     $stmt->bindValue(':invMake', $invMake, PDO::PARAM_STR);
     $stmt->bindValue(':invModel', $invModel, PDO::PARAM_STR);
     $stmt->bindValue(':invDescription', $invDescription, PDO::PARAM_STR);
-    $stmt->bindValue(':invImage', $invImage, PDO::PARAM_STR);
-    $stmt->bindValue(':invThumbnail', $invThumbnail, PDO::PARAM_STR);
     $stmt->bindValue(':invPrice', $invPrice, PDO::PARAM_STR);
-    $stmt->bindValue(':invStock', $invStock, PDO::PARAM_STR);
     $stmt->bindValue(':invColor', $invColor, PDO::PARAM_STR);
     $stmt->bindValue(':classificationId', $classificationId, PDO::PARAM_STR);
     // Insert the data
@@ -125,7 +119,7 @@ function deleteVehicle($invId) {
     // The SQL statement
     $sql = 'DELETE FROM inventory WHERE invId = :invId';
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
     $stmt->execute();
     $rowsChanged = $stmt->rowCount();
     $stmt->closeCursor();
@@ -138,9 +132,9 @@ function getVehiclesByClassification($classificationName){
     // with the nav list as an additional name-value pair? It would
     // query the database less often. 
     // Is the way we were told to do this better from a security standpoint?
-    $sql = 'SELECT inv.invId, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invStock, inv.invColor, inv.classificationId, img.imgPath 
+    $sql = 'SELECT inv.invId, inv.invYear, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invColor, inv.classificationId, img.imgPath 
     FROM inventory inv JOIN images img ON inv.invId = img.invId 
-    WHERE inv.classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName) AND img.imgName LIKE "%-tn.%" AND img.imgPrimary = 1';
+    WHERE inv.classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName) AND img.imgName LIKE "%-tn.%"';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':classificationName', $classificationName, PDO::PARAM_STR);
     $stmt->execute();
@@ -158,4 +152,29 @@ function getVehicles(){
     $stmt->closeCursor();
     return $invInfo;
 }
+
+//Search Inventory table for possible matches to user query
+function getInvSearchResults($userQuery){
+
+    $db = phpmotorsConnect();
+    $sql = 'SELECT inv.invId, inv.invMake, inv.invModel, inv.invDescription, inv.invPrice, inv.invColor, img.imgPath 
+    FROM carclassification cc JOIN inventory inv 
+    ON cc.classificationId = inv.classificationId JOIN images img 
+    ON inv.invId = img.invId 
+    WHERE (
+        inv.invMake LIKE :userQuery OR 
+        inv.invModel LIKE :userQuery OR 
+        cc.classificationName LIKE :userQuery
+        )
+    AND (img.imgName LIKE "%-tn.%")';
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userQuery', '%'.$userQuery.'%', PDO::PARAM_STR);
+    $stmt->execute();
+    $searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    // var_dump($searchResults);
+    // exit;
+    return $searchResults;
+}
+
 ?>
